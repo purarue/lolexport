@@ -2,7 +2,7 @@
 
 Exports League of Legends Match History metadata using the RiotGames API
 
-I don't play league of legends that often anymore, this is to export my entire match history so I can do some analysis as part of [`HPI`](https://github.com/seanbreckenridge/HPI). With [`group-and-termgraph`](https://github.com/seanbreckenridge/seanb-utils/blob/main/shellscripts/group-and-termgraph)
+I don't play league of legends that often anymore, this is to export my entire match history so I can do some analysis as part of [`HPI`](https://github.com/purarue/HPI). With [`group-and-termgraph`](https://github.com/purarue/pura-utils/blob/main/shellscripts/group-and-termgraph)
 
 ```bash
 $ hpi query my.league.export -s | jq '.game_mode' -r | group-and-termgraph
@@ -40,7 +40,7 @@ Requires at least `python3.7`
 
 To install with pip, run:
 
-    pip install git+https://github.com/seanbreckenridge/lolexport
+    pip install git+https://github.com/purarue/lolexport
 
 This is accessible as `lolexport` and using `python3 -m lolexport`
 

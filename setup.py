@@ -13,9 +13,8 @@ pkg = "lolexport"
 setup(
     name=pkg,
     version="0.1.3",
-    url="https://github.com/seanbreckenridge/lolexport",
-    author="Sean Breckenridge",
-    author_email="seanbrecke@gmail.com",
+    url="https://github.com/purarue/lolexport",
+    author="purarue",
     description=(
         """Exports League of Legends Match History data using the RiotGames API"""
     ),
