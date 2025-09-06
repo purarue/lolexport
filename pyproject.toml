@@ -21,11 +21,7 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
 ]
 
-dependencies = [
-  # Place your requirements.txt dependencies here, one per line, e.g.:
-  # "requests",
-  # "someotherpackage>=1.0",
-]
+dependencies = ["click>=8.0", "logzero", "riotwatcher", "backoff", "IPython"]
 
 [project.optional-dependencies]
 testing = ["mypy", "flake8"]
@@ -47,7 +43,7 @@ lolexport = ["py.typed"]
 pretty = "True"
 disallow_any_generics = "False"
 show_error_context = "True"
-show_error_codes   = "True"
+show_error_codes = "True"
 namespace_packages = "True"
 disallow_subclassing_any = "True"
 disallow_incomplete_defs = "True"

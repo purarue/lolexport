@@ -1,5 +1,0 @@
-click>=8.0
-logzero
-riotwatcher
-backoff
-IPython
