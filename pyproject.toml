@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lolexport"
+version = "0.1.3"
+description = "Exports League of Legends Match History data using the RiotGames API"
+authors = [{ name = "purarue" }]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+keywords = ["api"]
+classifiers = [
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+
+dependencies = [
+  # Place your requirements.txt dependencies here, one per line, e.g.:
+  # "requests",
+  # "someotherpackage>=1.0",
+]
+
+[project.optional-dependencies]
+testing = ["mypy", "flake8"]
+
+[project.urls]
+Homepage = "https://github.com/purarue/lolexport"
+
+[project.scripts]
+lolexport = "lolexport.cli:main"
+
+[tool.setuptools]
+packages = ["lolexport"]
+zip-safe = false
+
+[tool.setuptools.package-data]
+lolexport = ["py.typed"]
+
+[tool.mypy]
+pretty = "True"
+disallow_any_generics = "False"
+show_error_context = "True"
+show_error_codes   = "True"
+namespace_packages = "True"
+disallow_subclassing_any = "True"
+disallow_incomplete_defs = "True"
+no_implicit_optional = "True"
+warn_redundant_casts = "True"
+warn_return_any = "True"
+warn_unreachable = "True"
