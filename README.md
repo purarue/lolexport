@@ -36,7 +36,7 @@ Combines the results from `matchlist_by_puuid` and `matches/by-puuid`, and dumps
 
 ## Installation
 
-Requires at least `python3.7`
+Requires at least `python3.10+`
 
 To install with pip, run:
 

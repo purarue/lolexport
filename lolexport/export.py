@@ -1,5 +1,5 @@
 from time import sleep
-from typing import Dict, List, Any
+from typing import Any
 
 from riotwatcher import LolWatcher, ApiError  # type: ignore[import]
 import backoff  # type: ignore[import]
@@ -8,16 +8,16 @@ import click
 from .log import logger
 
 
-def get_matches(lol_watcher: LolWatcher, region: str, my_puuid: str) -> List[str]:
+def get_matches(lol_watcher: LolWatcher, region: str, my_puuid: str) -> list[str]:
     """
     > resp[0]
     'NA1_4078236924'
     """
     received_entries: bool = True
     beginIndex: int = 0
-    entries: List[str] = []
+    entries: list[str] = []
     while received_entries:
-        resp: List[str] = lol_watcher.match.matchlist_by_puuid(
+        resp: list[str] = lol_watcher.match.matchlist_by_puuid(
             region=fix_region(region),
             puuid=my_puuid,
             start=beginIndex,
@@ -35,9 +35,9 @@ def get_matches(lol_watcher: LolWatcher, region: str, my_puuid: str) -> List[str
 @backoff.on_exception(backoff.expo, ApiError)
 def get_match_data(
     lol_watcher: LolWatcher, region: str, match_id: str
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     sleep(1)
-    data: Dict[str, Any] = lol_watcher.match.by_id(
+    data: dict[str, Any] = lol_watcher.match.by_id(
         region=fix_region(region), match_id=match_id
     )
     return data
@@ -45,17 +45,17 @@ def get_match_data(
 
 def export_data(
     api_key: str, summoner_name: str, region: str, *, interactive: bool = True
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     # get my info
     logger.debug("Getting encrypted account id...")
     lol_watcher = LolWatcher(api_key)
-    me: Dict[str, Any] = lol_watcher.summoner.by_name(region, summoner_name)
+    me: dict[str, Any] = lol_watcher.summoner.by_name(region, summoner_name)
     my_puuid = me["puuid"]
 
     # get all matches
-    matches: List[str] = get_matches(lol_watcher, region, my_puuid)
+    matches: list[str] = get_matches(lol_watcher, region, my_puuid)
 
-    data: List[Dict[str, Any]] = []
+    data: list[dict[str, Any]] = []
 
     # attach lots of metadata to each match Dict response
     for i, m in enumerate(matches, 1):

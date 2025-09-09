@@ -10,7 +10,8 @@ future if the IDs dont match
 import json
 from pathlib import Path
 from functools import partial
-from typing import List, Dict, Any, NamedTuple, Iterator
+from typing import Any, NamedTuple
+from collections.abc import Iterator
 
 import requests
 from riotwatcher import LolWatcher  # type: ignore[import]
@@ -19,11 +20,11 @@ from .log import logger
 from .common import Json
 
 
-def pick_keys(d: Json, wanted_keys: List[str]) -> Json:
+def pick_keys(d: Json, wanted_keys: list[str]) -> Json:
     return {k: v for k, v in d.items() if k in wanted_keys}
 
 
-IDMap = Dict[int, Any]
+IDMap = dict[int, Any]
 
 
 class DataDog(NamedTuple):
