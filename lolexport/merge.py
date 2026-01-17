@@ -8,11 +8,11 @@ from collections.abc import Iterator, Sequence
 from .log import logger
 
 
-def parse_datetime_sec(d: Union[str, float, int]) -> datetime:
+def parse_datetime_sec(d: str | float | int) -> datetime:
     return datetime.fromtimestamp(int(d), tz=timezone.utc)
 
 
-def parse_datetime_millis(d: Union[str, float, int]) -> datetime:
+def parse_datetime_millis(d: str | float | int) -> datetime:
     return parse_datetime_sec(int(d) / 1000)
 
 
@@ -27,7 +27,7 @@ class Game:
     __str__ = __repr__
 
     @property
-    def _stats_v4(self) -> Optional[dict[str, Any]]:
+    def _stats_v4(self) -> dict[str, Any] | None:
         if "stats" in self.raw and "playerNames" in self.raw:
             uids = {int(uid): name for uid, name in self.raw["playerNames"].items()}
             _uid_matches = [k for k, v in uids.items() if self.username == v]
@@ -49,7 +49,7 @@ class Game:
         return None
 
     @property
-    def _stats_v5(self) -> Optional[dict[str, Any]]:
+    def _stats_v5(self) -> dict[str, Any] | None:
         if "info" in self.raw:
             info = self.raw["info"]
             if "participants" in info:
