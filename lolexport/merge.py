@@ -2,7 +2,7 @@ import re
 import json
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
-from typing import Optional, Any, Union, cast
+from typing import Any, cast
 from collections.abc import Iterator, Sequence
 
 from .log import logger
