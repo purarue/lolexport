@@ -2,22 +2,23 @@ import re
 import json
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
-from typing import Optional, Dict, Any, Iterator, Union, Set, Sequence, cast
+from typing import Any, cast
+from collections.abc import Iterator, Sequence
 
 from .log import logger
 
 
-def parse_datetime_sec(d: Union[str, float, int]) -> datetime:
+def parse_datetime_sec(d: str | float | int) -> datetime:
     return datetime.fromtimestamp(int(d), tz=timezone.utc)
 
 
-def parse_datetime_millis(d: Union[str, float, int]) -> datetime:
+def parse_datetime_millis(d: str | float | int) -> datetime:
     return parse_datetime_sec(int(d) / 1000)
 
 
 class Game:
-    def __init__(self, raw: Dict[str, Any], username: str) -> None:
-        self.raw: Dict[str, Any] = raw
+    def __init__(self, raw: dict[str, Any], username: str) -> None:
+        self.raw: dict[str, Any] = raw
         self.username: str = username
 
     def __repr__(self) -> str:
@@ -26,7 +27,7 @@ class Game:
     __str__ = __repr__
 
     @property
-    def _stats_v4(self) -> Optional[Dict[str, Any]]:
+    def _stats_v4(self) -> dict[str, Any] | None:
         if "stats" in self.raw and "playerNames" in self.raw:
             uids = {int(uid): name for uid, name in self.raw["playerNames"].items()}
             _uid_matches = [k for k, v in uids.items() if self.username == v]
@@ -48,7 +49,7 @@ class Game:
         return None
 
     @property
-    def _stats_v5(self) -> Optional[Dict[str, Any]]:
+    def _stats_v5(self) -> dict[str, Any] | None:
         if "info" in self.raw:
             info = self.raw["info"]
             if "participants" in info:
@@ -99,7 +100,7 @@ class Game:
             return self.__class__._clean_champion_name(sv5["championName"])
 
     @property
-    def _info(self) -> Dict[str, Any]:
+    def _info(self) -> dict[str, Any]:
         info = self.raw
         if "info" in self.raw:
             info = self.raw["info"]
@@ -127,7 +128,7 @@ class Game:
         assert isinstance(gm, str)
         return gm
 
-    def _serialize(self) -> Dict[str, Any]:
+    def _serialize(self) -> dict[str, Any]:
         return {
             "username": self.username,
             "game_id": self.game_id,
@@ -146,7 +147,7 @@ class Game:
 
 
 def merge_game_histories(files: Sequence[Path], username: str) -> Iterator[Game]:
-    emitted: Set[int] = set()
+    emitted: set[int] = set()
     skipped = 0
     for f in files:
         for g in Game.from_file(f, username):

@@ -2,33 +2,28 @@
 
 Exports League of Legends Match History metadata using the RiotGames API
 
-I don't play league of legends that often anymore, this is to export my entire match history so I can do some analysis as part of [`HPI`](https://github.com/seanbreckenridge/HPI). Like:
+I don't play league of legends that often anymore, this is to export my entire match history so I can do some analysis as part of [`HPI`](https://github.com/purarue/HPI). With [`group-and-termgraph`](https://github.com/purarue/pura-utils/blob/main/shellscripts/group-and-termgraph)
 
 ```bash
-$ hpi query my.league.export -s | jq '.game_mode' -r | chomp | sort | uniq -c | awk '{print $2 " " $1}' | termgraph | chomp | awk '{print $NF,$0}' | sort -n | cut -f2- -d' ' | tail -n 15
+$ hpi query my.league.export -s | jq '.game_mode' -r | group-and-termgraph
 ODYSSEY   : ▏ 3.00
 ULTBOOK   : ▇▇ 12.00
-GAMEMODEX : ▇▇▇▇▇ 29.00
-NEXUSBLITZ: ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 110.00
-ARAM      : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 159.00
-CLASSIC   : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 203.00
-URF       : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 259.00
-$ hpi query my.league.export -s | jq '.champion' -r | chomp | sort | uniq -c | awk '{print $2 " " $1}' | termgraph | chomp | awk '{print $NF,$0}' | sort -n | cut -f2- -d' ' | tail -n 15
-Poppy       : ▇▇▇▇ 12.00
-Ekko        : ▇▇▇▇ 13.00
-Gnar        : ▇▇▇▇ 13.00
-Vayne       : ▇▇▇▇ 14.00
-Lucian      : ▇▇▇▇▇ 15.00
-Rengar      : ▇▇▇▇▇ 15.00
-Thresh      : ▇▇▇▇▇ 17.00
+GAMEMODEX : ▇▇▇▇ 29.00
+NEXUSBLITZ: ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 110.00
+ARAM      : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 159.00
+CLASSIC   : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 203.00
+URF       : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 293.00
+$ hpi query my.league.export -s | jq '.champion' -r | group-and-termgraph | tail -n 10
+Rengar      : ▇▇▇▇▇ 17.00
 TwistedFate : ▇▇▇▇▇ 17.00
-Lux         : ▇▇▇▇▇▇ 18.00
-Bard        : ▇▇▇▇▇▇▇ 23.00
-Riven       : ▇▇▇▇▇▇▇▇ 24.00
-Gragas      : ▇▇▇▇▇▇▇▇▇ 28.00
+Lux         : ▇▇▇▇▇▇ 20.00
+Thresh      : ▇▇▇▇▇▇ 20.00
+Bard        : ▇▇▇▇▇▇▇ 25.00
+Riven       : ▇▇▇▇▇▇▇▇ 26.00
 MasterYi    : ▇▇▇▇▇▇▇▇▇ 29.00
-Yasuo       : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 67.00
-LeeSin      : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 146.00
+Gragas      : ▇▇▇▇▇▇▇▇▇ 30.00
+Yasuo       : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 68.00
+LeeSin      : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 159.00
 ```
 
 Though, more interesting to me is that this tells me when/how long every match was, which means I can graph my activity.
@@ -41,17 +36,17 @@ Combines the results from `matchlist_by_puuid` and `matches/by-puuid`, and dumps
 
 ## Installation
 
-Requires at least `python3.7`
+Requires at least `python3.10+`
 
 To install with pip, run:
 
-    pip install git+https://github.com/seanbreckenridge/lolexport
+    pip install git+https://github.com/purarue/lolexport
 
 This is accessible as `lolexport` and using `python3 -m lolexport`
 
 ## Usage
 
-Theres 2 commands here, `export` (which does the majority of the work, exporting info from your matches to a JSON file) and then `parse` which takes that as input and extracts (what I consider to be) useful data from it.
+There's 2 commands here, `export` (which does the majority of the work, exporting info from your matches to a JSON file) and then `parse` which takes that as input and extracts (what I consider to be) useful data from it.
 
 ### Export
 
